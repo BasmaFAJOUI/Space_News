@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-cr-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-cr-service
+  template:
+    metadata:
+      labels:
+        app: blog-cr-service
+    spec:
+      containers:
+        - name: blog-cr-service
+          image: basmafj/blog_cr_service:latest
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-db:5432/ProjetJEE
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
